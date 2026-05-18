@@ -1,0 +1,2 @@
+"""Legal AI backend package."""
+

@@ -1,0 +1,32 @@
+services:
+  qdrant:
+    image: qdrant/qdrant:v1.12.4
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+  api:
+    build:
+      context: .
+    environment:
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      GROQ_MODEL: ${GROQ_MODEL:-llama-3.1-70b-versatile}
+      QDRANT_URL: http://qdrant:6333
+      QDRANT_API_KEY: ${QDRANT_API_KEY:-}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-sentence-transformers/all-MiniLM-L6-v2}
+      LEGAL_RAG_AUTO_BUILD: ${LEGAL_RAG_AUTO_BUILD:-0}
+      MAX_CASE_FILES: ${MAX_CASE_FILES:-0}
+      MIN_CASE_CHARS: ${MIN_CASE_CHARS:-2500}
+    depends_on:
+      - qdrant
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/data_processed:/app/backend/data_processed
+      - ./docs:/app/docs:ro
+      - ./dataset:/app/dataset:ro
+
+volumes:
+  qdrant_data:
+

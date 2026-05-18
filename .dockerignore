@@ -1,0 +1,13 @@
+.git
+.DS_Store
+frontend
+dataset
+docs
+backend/__pycache__
+backend/data_processed
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+
